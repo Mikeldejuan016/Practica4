@@ -6,6 +6,52 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Encriptador César</h1>
+        <p>Introduce el mensaje y el desplazamiento para encriptarlo:</p>
+
+        <label for="plaintext">Mensaje a Encriptar:</label>
+        <input type="text" id="plaintext" placeholder="Introduce el mensaje a encriptar" />
+
+        <label for="shift">Desplazamiento:</label>
+        <input type="number" id="shift" placeholder="Introduce el número de desplazamiento" />
+
+        <button onclick="encryptMessage()">Encriptar</button>
+
+        <div class="output" id="result"></div>
+    </div>
+
+    <script>
+        function encryptMessage() {
+            const plaintext = document.getElementById("plaintext").value;
+            const shift = parseInt(document.getElementById("shift").value);
+            if (!plaintext || isNaN(shift)) {
+                alert("Por favor, ingresa un mensaje y un desplazamiento válido.");
+                return;
+            }
+            const encryptedMessage = caesarEncrypt(plaintext, shift);
+            document.getElementById("result").innerText = "Mensaje Encriptado: " + encryptedMessage;
+        }
+        function caesarEncrypt(text, shift) {
+            let encryptedText = '';
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            // Convertir el mensaje a mayúsculas
+            text = text.toUpperCase();
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                // Si es una letra, se encripta
+                if (alphabet.includes(char)) {
+                    let newPos = (alphabet.indexOf(char) + shift) % 26;
+                    encryptedText += alphabet[newPos];
+                } else {
+                    // Si no es letra (por ejemplo, espacio o signo de puntuación), se mantiene igual
+                    encryptedText += char;
+                }
+            }
+            return encryptedText;
+        }
+    </script>
+    
     <form action="index.php" method="POST"> 
         <button type="submit">Volver al indice</button>
     </form>
