@@ -4,8 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <script>
+        function validarFormulario() {
+            let nombre = document.getElementById("nombre").value;
+            let direccion = document.getElementById("direccion").value;
+            let email = document.getElementById("email").value;
+            let descripcion = document.getElementById("descripcion").value;
+            let foto = document.getElementById("foto").value;
+            let pais = document.getElementById("pais").value;
+            let intereses = document.getElementsByName("intereses");
+            let error = false;
+            let mensajeError = "";
+
+            // Limpiar mensajes de error anteriores
+            document.getElementById("errorNombre").innerText = "";
+            document.getElementById("errorEmail").innerText = "";
+            document.getElementById("errorDescripcion").innerText = "";
+            document.getElementById("errorFoto").innerText = "";
+            document.getElementById("errorPais").innerText = "";
+            document.getElementById("errorIntereses").innerText = "";
+            // Validación de nombre
+            if (nombre.trim() === "") {
+                mensajeError += "El campo 'Nombre' es obligatorio.<br>";
+                error = true;
+            }
+            // Validación de correo electrónico
+            let regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (!regexEmail.test(email)) {
+                mensajeError += "Por favor, ingresa un correo electrónico válido.<br>";
+                error = true;
+            }
+            // Validación de la longitud de la descripción
+            if (descripcion.length > 200) {
+                mensajeError += "La descripción no debe exceder los 200 caracteres.<br>";
+                error = true;
+            }
+            // Validación de fotografía (debe seleccionar una imagen)
+            if (foto === "") {
+                mensajeError += "Debes cargar una imagen.<br>";
+                error = true;
+            }
+            // Validación de país
+            if (pais === "") {
+                mensajeError += "Debes seleccionar un país.<br>";
+                error = true;
+            }
+            // Validación de intereses (al menos uno seleccionado)
+            let interesesSeleccionados = Array.from(intereses).filter(i => i.checked);
+            if (interesesSeleccionados.length === 0) {
+                mensajeError += "Debes seleccionar al menos un interés.<br>";
+                error = true;
+            }
+            // Si hay errores, mostrar mensaje de error y evitar el envío del formulario
+            if (error) {
+                document.getElementById("errorFormulario").innerHTML = mensajeError;
+                return false;
+            }
+            // Si todo está bien, permitir el envío
+            return true;
+        }
+    </script>
 </head>
 <body>
+    <h1>Formulario de Inscripción</h1>
+    <form onsubmit="return validarFormulario()" method="post" enctype="multipart/form-data">
+        <div id="errorFormulario" class="error"></div>
+
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" value="" required>
+
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" name="direccion" value="" required>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" value="" required>
+        <div id="errorEmail" class="error-msg"></div>
+
+        <label for="foto">Fotografía (imagen):</label>
+        <input type="file" id="foto" name="foto" accept="image/*" required>
+        <div id="errorFoto" class="error-msg"></div>
+
+        <label for="descripcion">Descripción (máximo 200 caracteres):</label>
+        <textarea id="descripcion" name="descripcion" rows="5" maxlength="200" required></textarea>
+        <div id="errorDescripcion" class="error-msg"></div>
+
+        <label for="pais">País:</label>
+        <select id="pais" name="pais" required>
+            <option value="">Seleccione un país...</option>
+            <option value="Mexico">México</option>
+            <option value="España">España</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Colombia">Colombia</option>
+        </select>
+        <div id="errorPais" class="error-msg"></div>
+
+        <label>Intereses (Selecciona uno o más):</label>
+        <input type="checkbox" id="interes1" name="intereses" value="Deportes"> Deportes<br>
+        <input type="checkbox" id="interes2" name="intereses" value="Música"> Música<br>
+        <input type="checkbox" id="interes3" name="intereses" value="Tecnología"> Tecnología<br>
+        <div id="errorIntereses" class="error-msg"></div>
+
+        <button type="submit" class="button">Enviar Inscripción</button>
+    </form>
+    
     <form action="index.php" method="POST"> 
         <button type="submit">Volver al indice</button>
     </form>
