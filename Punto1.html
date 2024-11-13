@@ -6,6 +6,45 @@
     <title>Document</title>
 </head>
 <body>
+    <div class="container">
+        <h1>Calculadora de Puertas Lógicas</h1>
+        <p>Introduce los valores para las puertas lógicas AND, OR y XOR:</p>
+
+        <label for="inputA">Valor de A (0 o 1):</label>
+        <input type="number" id="inputA" min="0" max="1" placeholder="Introduce 0 o 1">
+
+        <label for="inputB">Valor de B (0 o 1):</label>
+        <input type="number" id="inputB" min="0" max="1" placeholder="Introduce 0 o 1">
+
+        <button onclick="calculate()">Calcular</button>
+
+        <div class="output" id="result"></div>
+    </div>
+
+    <script>
+        function calculate() {
+            const A = parseInt(document.getElementById("inputA").value);
+            const B = parseInt(document.getElementById("inputB").value);
+
+            // Validar que las entradas sean 0 o 1
+            if ((A !== 0 && A !== 1) || (B !== 0 && B !== 1)) {
+                alert("Por favor, ingresa solo valores 0 o 1.");
+                return;
+            }
+            // Calcular las salidas de las puertas lógicas
+            const andResult = A && B;
+            const orResult = A || B;
+            const xorResult = A ^ B;
+            // Mostrar los resultados
+            const resultText = `
+                <p><strong>Puerta AND:</strong> ${andResult}</p>
+                <p><strong>Puerta OR:</strong> ${orResult}</p>
+                <p><strong>Puerta XOR:</strong> ${xorResult}</p>
+            `;
+            document.getElementById("result").innerHTML = resultText;
+        }
+    </script>
+    
     <form action="index.php" method="POST"> 
         <button type="submit">Volver al indice</button>
     </form>
